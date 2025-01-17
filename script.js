@@ -55,15 +55,17 @@ function choosePresent(presentKey) {
         return;
     }
 
-    // Atualiza a escolha no Firebase, mas somente se não foi escolhido
+    // Pega o presente para verificar se ele já foi escolhido
     database.ref('presents/' + presentKey).once('value').then(snapshot => {
         const present = snapshot.val();
+        
+        // Se o presente já foi escolhido, não permite a escolha
         if (present.chosenBy) {
             alert("Este presente já foi escolhido por outra pessoa!");
             return;
         }
 
-        // Atualiza o Firebase com o nome do usuário
+        // Atualiza a escolha no Firebase
         database.ref('presents/' + presentKey).update({
             chosenBy: name
         }).then(() => {
