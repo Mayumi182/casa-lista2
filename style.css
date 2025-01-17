@@ -83,13 +83,4 @@ li {
         width: 100%; /* Garante que os botões e o input não ultrapassem a largura */
         box-sizing: border-box; /* Importante para evitar que o padding quebre o layout */
     }
-
-    h1 {
-        font-size: 24px; /* Ajusta o tamanho do título para telas pequenas */
-    }
-
-    p {
-        font-size: 16px; /* Ajusta o tamanho do texto */
-        text-align: center;
-    }
 }
