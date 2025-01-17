@@ -7,31 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Tela para colocar o nome -->
+    <!-- Tela de Inserir o Nome -->
     <div id="name-screen" class="container">
         <h1>Chá de Casa Nova</h1>
         <p>Escolha um presente e adicione seu nome:</p>
-
-        <!-- Formulário para adicionar o nome -->
+        
         <div class="form">
             <input type="text" id="name" placeholder="Digite seu nome" required>
-            <button onclick="startChoosing()">Confirmar</button>
         </div>
+        <button onclick="startChoosing()">Confirmar</button>
     </div>
 
-    <!-- Tela para escolher presentes -->
-    <div id="choose-screen" class="container" style="display: none;">
-        <h1>Escolha seu presente</h1>
+    <!-- Tela de Escolha de Presentes -->
+    <div id="present-screen" class="container" style="display: none;">
+        <h1>Escolha seu Presente</h1>
         <ul id="present-list"></ul>
+        <button onclick="goBack()">Voltar</button>
     </div>
 
-    <!-- Botão flutuante para voltar -->
-    <button id="back-button" onclick="goBack()">←</button>
+    <!-- Botão Flutuante de Voltar -->
+    <button id="back-btn" onclick="goBack()">← Voltar</button>
 
     <!-- Scripts para Firebase versão 8.x -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    
+
     <!-- Seu script.js -->
     <script src="script.js"></script>
 </body>
