@@ -60,3 +60,16 @@ button:hover {
     background-color: #ab0046;
 }
 
+/* Formulário */
+input {
+    padding: 10px;
+    width: 80%;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #d5006d;
+}
