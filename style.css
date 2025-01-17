@@ -1,66 +1,81 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9e3f1; /* Cor de fundo rosa claro */
+    background-color: #f8f8f8;
     color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    text-align: center;
 }
 
 .container {
-    background-color: #ffffff; /* Cor de fundo branca para o container */
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #e91e63; /* Cor do título em rosa escuro */
+    color: #d5006c; /* Rosa */
+    font-size: 2em;
+}
+
+p {
+    font-size: 1.2em;
+    color: #555;
 }
 
 ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
 }
 
 .present-item {
+    background-color: #fce4ec; /* Cor de fundo suave para os presentes */
     margin: 10px 0;
-}
-
-input[type="text"] {
     padding: 10px;
-    width: calc(100% - 20px);
-    margin-bottom: 10px;
-    border: 1px solid #f06292; /* Bordas em rosa claro */
-    border-radius: 5px;
-    background-color: #fce4ec; /* Cor de fundo rosa claro para o input */
-}
-
-button {
-    padding: 10px 20px;
-    width: 100%;
-    background-color: #e91e63; /* Cor de fundo rosa escuro para o botão */
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #c2185b; /* Cor de fundo rosa mais escuro para o hover */
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .present-checkbox {
     margin-right: 10px;
 }
 
-span {
-    color: #e91e63; /* Cor rosa escuro para o nome do responsável pelo presente */
+button {
+    background-color: #d5006c; /* Rosa */
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+button:hover {
+    background-color: #c51162;
+}
+
+form {
+    margin-top: 20px;
+}
+
+input {
+    padding: 8px;
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+input[type="text"] {
+    width: 200px;
+}
+
+button#submit {
+    background-color: #4caf50;
+    margin-top: 10px;
+}
+
+button#submit:hover {
+    background-color: #45a049;
 }
