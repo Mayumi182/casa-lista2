@@ -20,21 +20,30 @@ const presentsRef = database.ref('presents');
 function loadPresents() {
     presentsRef.on('value', (snapshot) => {
         const presents = snapshot.val();
-        const presentList = document.getElementById('present-list');
-        presentList.innerHTML = ''; // Limpar a lista antes de adicionar os itens
+        
+        // Verificando se os dados foram carregados
+        console.log("Dados carregados do Firebase:", presents);
 
-        for (let id in presents) {
-            const present = presents[id];
-            const li = document.createElement('li');
-            li.classList.add('present-item');
-            li.innerHTML = `
-                <label>
-                    <input type="checkbox" class="present-checkbox" data-id="${id}">
-                    ${present.name}
-                </label>
-                <span id="chosen-by-${id}">${present.chosenBy ? `Escolhido por: ${present.chosenBy}` : ''}</span>
-            `;
-            presentList.appendChild(li);
+        if (presents) {
+            const presentList = document.getElementById('present-list');
+            presentList.innerHTML = ''; // Limpar a lista antes de adicionar os itens
+
+            // Adicionando os presentes na lista
+            for (let id in presents) {
+                const present = presents[id];
+                const li = document.createElement('li');
+                li.classList.add('present-item');
+                li.innerHTML = `
+                    <label>
+                        <input type="checkbox" class="present-checkbox" data-id="${id}">
+                        ${present.name}
+                    </label>
+                    <span id="chosen-by-${id}">${present.chosenBy ? `Escolhido por: ${present.chosenBy}` : ''}</span>
+                `;
+                presentList.appendChild(li);
+            }
+        } else {
+            console.log("Nenhum presente encontrado.");
         }
     });
 }
