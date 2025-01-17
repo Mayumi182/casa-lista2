@@ -27,10 +27,16 @@ function loadPresents() {
                 const li = document.createElement('li');
                 const chosenBy = presents[key].chosenBy; // Verifica se o presente foi escolhido
 
+                const nameInput = document.getElementById("name");
+                const name = nameInput.value.trim();  // Nome digitado pelo usuário
+
+                // Condicional para exibir a opção de "Desfazer escolha" só se o nome digitado for o mesmo de quem escolheu
+                const canUnchoose = chosenBy && chosenBy === name;
+
                 li.innerHTML = `
                     <span>${presents[key].name}</span>
                     <button onclick="choosePresent('${key}')" ${chosenBy ? 'disabled' : ''}>Escolher</button>
-                    ${chosenBy ? `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : ''}
+                    ${canUnchoose ? `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : ''}
                     <div id="chosen-${key}" class="chosen-name"></div>
                 `;
                 presentsList.appendChild(li);
