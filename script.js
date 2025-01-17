@@ -117,12 +117,13 @@ function unchoosePresent(presentKey) {
 
 // Função para carregar os dados ao carregar a página
 window.onload = function() {
+    // Verifica se o nome foi armazenado no localStorage
     if (!localStorage.getItem("userName")) {
         document.getElementById("name-screen").style.display = "block";
         document.getElementById("choose-screen").style.display = "none";
     } else {
         document.getElementById("name-screen").style.display = "none";
         document.getElementById("choose-screen").style.display = "block";
-        loadPresents();
+        loadPresents(); // Carrega os presentes se o nome já estiver armazenado
     }
 };
