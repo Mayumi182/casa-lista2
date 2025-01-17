@@ -8,16 +8,6 @@ const firebaseConfig = {
     messagingSenderId: "878950006907",
     appId: "1:878950006907:web:62eb9256722a0bb77be2de"
 };
-// Configuração do Firebase (substitua com seus dados)
-const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_DOMINIO.firebaseapp.com",
-    databaseURL: "https://SEU_DOMINIO.firebaseio.com",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SEU_BUCKET.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-};
 
 // Inicializando o Firebase
 firebase.initializeApp(firebaseConfig);
@@ -44,7 +34,7 @@ function loadPresents() {
                 const li = document.createElement('li');
                 li.classList.add('present-item');
 
-                // Verifica se o presente foi escolhido e quem o escolheu
+                // Adicionando o nome do presente e status de quem escolheu
                 li.innerHTML = `
                     <label>
                         <input type="checkbox" class="present-checkbox" data-id="${id}" ${present.chosenBy ? 'disabled' : ''}>
@@ -88,22 +78,27 @@ function submitChoice() {
 
 // Função para desfazer a escolha de um presente
 function undoChoice(presentId) {
+    const name = document.getElementById('name').value; // Pega o nome do input
     const presentRef = database.ref('presents/' + presentId);
-    const present = document.querySelector(`#chosen-by-${presentId}`).innerText;
 
-    // Verifica se o usuário atual é o mesmo que escolheu o presente
-    if (present.includes(document.getElementById('name').value)) {
-        // Remover o nome do campo 'chosenBy', permitindo que o presente volte a ser escolhido
-        presentRef.update({ chosenBy: null });
+    // Verifica se o nome da pessoa que está tentando desfazer a escolha é o mesmo que fez a escolha
+    presentRef.once('value').then(snapshot => {
+        const present = snapshot.val();
+        const chosenBy = present.chosenBy;
 
-        // Atualizar a interface
-        const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
-        chosenBySpan.innerText = ''; // Limpar a mensagem de quem escolheu
-        const checkbox = document.querySelector(`.present-checkbox[data-id="${presentId}"]`);
-        checkbox.disabled = false; // Reabilitar o checkbox para nova escolha
-    } else {
-        alert('Você não pode desfazer a escolha de outra pessoa!');
-    }
+        if (chosenBy && chosenBy === name) {
+            // Remover o nome do campo 'chosenBy', permitindo que o presente volte a ser escolhido
+            presentRef.update({ chosenBy: null });
+
+            // Atualizar a interface
+            const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
+            chosenBySpan.innerText = ''; // Limpar a mensagem de quem escolheu
+            const checkbox = document.querySelector(`.present-checkbox[data-id="${presentId}"]`);
+            checkbox.disabled = false; // Reabilitar o checkbox para nova escolha
+        } else {
+            alert('Você não pode desfazer a escolha de outra pessoa!');
+        }
+    });
 }
 
 // Carregar a lista de presentes ao carregar a página
