@@ -9,17 +9,6 @@ const firebaseConfig = {
     appId: "1:878950006907:web:62eb9256722a0bb77be2de"
 };
 
-// Configuração do Firebase (substitua com seus dados)
-const firebaseConfig = {
-    apiKey: "SUA_API_KEY",
-    authDomain: "SEU_DOMINIO.firebaseapp.com",
-    databaseURL: "https://SEU_DOMINIO.firebaseio.com",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SEU_BUCKET.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-};
-
 // Inicializando o Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
