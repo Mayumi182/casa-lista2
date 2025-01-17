@@ -125,5 +125,8 @@ function unchoosePresent(presentKey) {
 
 // Função para carregar os dados ao carregar a página
 window.onload = function() {
+    // Adiciona o event listener no botão "Confirmar"
+    document.getElementById("confirm-name-btn").addEventListener("click", startChoosing);
+
     loadPresents();
 };
