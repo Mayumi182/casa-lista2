@@ -1,73 +1,3 @@
-// Configuração do Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyDKXT7xVBuv-56IXKuUaah8-2aXp5MKY90",
-    authDomain: "cha-casa-pandas-9913b.firebaseapp.com",
-    databaseURL: "https://cha-casa-pandas-9913b-default-rtdb.firebaseio.com",
-    projectId: "cha-casa-pandas-9913b",
-    storageBucket: "cha-casa-pandas-9913b.firebasestorage.app",
-    messagingSenderId: "878950006907",
-    appId: "1:878950006907:web:62eb9256722a0bb77be2de"
-};
-
-// Inicializando o Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-// Função para carregar a tela de presentes após digitar o nome
-function startChoosing() {
-    const nameInput = document.getElementById("name");
-    const name = nameInput.value.trim();
-
-    if (name === "") {
-        alert("Por favor, insira seu nome.");
-        return;
-    }
-
-    // Esconde a tela de nome e mostra a tela de presentes
-    document.getElementById("screen-name").style.display = "none";
-    document.getElementById("screen-presents").style.display = "block";
-
-    loadPresents(); // Carrega a lista de presentes
-}
-
-// Função para pegar os presentes do Firebase e exibir na lista
-function loadPresents() {
-    const presentsList = document.getElementById("present-list");
-    presentsList.innerHTML = ''; // Limpa a lista antes de preencher
-
-    // Pega os dados da lista de presentes no Firebase
-    database.ref('presents').once('value').then(snapshot => {
-        const presents = snapshot.val();
-
-        for (let key in presents) {
-            if (presents[key].name) {
-                const li = document.createElement('li');
-                const chosenBy = presents[key].chosenBy; // Verifica quem escolheu o presente
-
-                const nameInput = document.getElementById("name");
-                const name = nameInput.value.trim();  // Nome digitado pelo usuário
-
-                // Verifica se o botão de "Desfazer escolha" deve ser mostrado
-                const canUnchoose = chosenBy && chosenBy === name;
-
-                li.innerHTML = `
-                    <span>${presents[key].name}</span>
-                    <button onclick="choosePresent('${key}')" ${chosenBy ? 'disabled' : ''}>Escolher</button>
-                    ${canUnchoose ? `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : ''}
-                    <div id="chosen-${key}" class="chosen-name"></div>
-                `;
-                presentsList.appendChild(li);
-
-                // Exibe quem escolheu o presente (se alguém já escolheu)
-                const chosenName = document.getElementById(`chosen-${key}`);
-                if (chosenBy) {
-                    chosenName.textContent = `Escolhido por: ${chosenBy}`;
-                }
-            }
-        }
-    });
-}
-
 // Função para escolher um presente
 function choosePresent(presentKey) {
     const nameInput = document.getElementById("name");
@@ -91,7 +21,6 @@ function choosePresent(presentKey) {
             chosenBy: name
         }).then(() => {
             loadPresents(); // Atualiza a lista de presentes
-            nameInput.value = ""; // Limpa o campo de nome
         });
     });
 }
@@ -115,18 +44,10 @@ function unchoosePresent(presentKey) {
                 chosenBy: null
             }).then(() => {
                 loadPresents(); // Atualiza a lista de presentes
-                nameInput.value = ""; // Limpa o campo de nome
+                // Não limpamos o campo de nome aqui, para permitir nova escolha
             });
         } else {
             alert("Este presente não foi escolhido por você!");
         }
     });
 }
-
-// Função para carregar os dados ao carregar a página
-window.onload = function() {
-    // Adiciona o event listener no botão "Confirmar"
-    document.getElementById("confirm-name-btn").addEventListener("click", startChoosing);
-
-    loadPresents();
-};
