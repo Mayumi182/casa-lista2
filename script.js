@@ -9,67 +9,67 @@ const firebaseConfig = {
     appId: "1:878950006907:web:62eb9256722a0bb77be2de"
 };
 
-// Inicialize o Firebase
+// Configuração do Firebase (substitua com seus dados)
+const firebaseConfig = {
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_DOMINIO.firebaseapp.com",
+    databaseURL: "https://SEU_DOMINIO.firebaseio.com",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_BUCKET.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+};
+
+// Inicializando o Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// Lista de presentes
-const presents = [
-    { id: 1, name: 'Jogo de Panelas' },
-    { id: 2, name: 'Micro-ondas' },
-    { id: 3, name: 'Aspirador de pó' },
-    { id: 4, name: 'Toalhas de Banho' }
-];
+// Referência para a lista de presentes no Firebase
+const presentsRef = database.ref('presents');
 
-// Função para renderizar a lista de presentes
-function renderPresentList() {
-    const listContainer = document.getElementById('present-list');
-    listContainer.innerHTML = '';  // Limpa a lista antes de renderizar novamente
+// Função para exibir a lista de presentes
+function loadPresents() {
+    presentsRef.on('value', (snapshot) => {
+        const presents = snapshot.val();
+        const presentList = document.getElementById('present-list');
+        presentList.innerHTML = ''; // Limpar a lista antes de adicionar os itens
 
-    presents.forEach(present => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span>${present.name}</span>
-            <button id="btn-${present.id}" onclick="choosePresent(${present.id})" ${isChosen(present.id) ? 'disabled' : ''}>Escolher</button>
-        `;
-        listContainer.appendChild(li);
+        for (let id in presents) {
+            const present = presents[id];
+            const li = document.createElement('li');
+            li.classList.add('present-item');
+            li.innerHTML = `
+                <label>
+                    <input type="checkbox" class="present-checkbox" data-id="${id}">
+                    ${present.name}
+                </label>
+                <span id="chosen-by-${id}">${present.chosenBy ? `Escolhido por: ${present.chosenBy}` : ''}</span>
+            `;
+            presentList.appendChild(li);
+        }
     });
 }
 
-// Verifica se o presente já foi escolhido
-function isChosen(presentId) {
-    const presentRef = database.ref('presents/' + presentId);
-    presentRef.once('value', snapshot => {
-        return snapshot.exists();
-    });
-}
-
-// Função para marcar o presente como escolhido
-function choosePresent(presentId) {
-    const name = document.getElementById('name').value;
-    if (!name) {
-        alert("Por favor, insira seu nome!");
-        return;
-    }
-
-    const presentRef = database.ref('presents/' + presentId);
-    presentRef.set({
-        name: name
-    }).then(() => {
-        renderPresentList();
-    });
-}
-
-// Função para confirmar escolha e salvar no Firebase
+// Função para enviar a escolha do presente
 function submitChoice() {
     const name = document.getElementById('name').value;
-    if (!name) {
-        alert("Por favor, insira seu nome!");
-        return;
-    }
+    const checkedPresent = document.querySelector('.present-checkbox:checked');
 
-    alert("Presente confirmado! Obrigado!");
+    if (name && checkedPresent) {
+        const presentId = checkedPresent.getAttribute('data-id');
+        const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
+        const presentRef = presentsRef.child(presentId);
+
+        // Atualizando o presente com o nome do escolhido
+        presentRef.update({ chosenBy: name });
+
+        // Atualizando a interface
+        chosenBySpan.innerText = `Escolhido por: ${name}`;
+        document.getElementById('name').value = ''; // Limpar o campo de nome
+    } else {
+        alert('Por favor, escolha um presente e adicione seu nome.');
+    }
 }
 
-// Inicializar a página com a lista de presentes
-renderPresentList();
+// Carregar a lista de presentes ao carregar a página
+loadPresents();
