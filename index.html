@@ -7,20 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Tela de inserção do nome -->
-        <div id="name-screen">
-            <h1>Chá de Casa Nova</h1>
-            <p>Digite seu nome para escolher um presente:</p>
+    <!-- Tela para digitar o nome -->
+    <div id="name-screen" class="container">
+        <h1>Chá de Casa Nova</h1>
+        <p>Escolha um presente e adicione seu nome:</p>
+        <div class="form">
             <input type="text" id="name" placeholder="Digite seu nome" required>
-            <button onclick="startChoosing()">Confirmar</button>
         </div>
+        <button onclick="startChoosing()">Confirmar escolha</button>
+    </div>
 
-        <!-- Tela de escolha de presentes -->
-        <div id="choose-screen" style="display: none;">
-            <h1>Escolha um presente:</h1>
-            <ul id="present-list"></ul>
-        </div>
+    <!-- Tela para escolha de presentes -->
+    <div id="choose-screen" class="container" style="display: none;">
+        <h1>Escolha um presente</h1>
+        <ul id="present-list"></ul>
+        <button onclick="goBackToNameScreen()">Voltar</button> <!-- Botão de voltar -->
     </div>
 
     <!-- Scripts para Firebase versão 8.x -->
