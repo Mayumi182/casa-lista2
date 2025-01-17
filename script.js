@@ -101,9 +101,11 @@ function startChoosing() {
     const nameScreen = document.getElementById('name-screen');
     const presentScreen = document.getElementById('present-screen');
     
-    nameScreen.style.display = 'none';  // Esconde a tela de nome
-    presentScreen.style.display = 'block';  // Exibe a tela de presentes
-    loadPresents(); // Carrega os presentes na tela
+    if (nameScreen && presentScreen) {
+        nameScreen.style.display = 'none';  // Esconde a tela de nome
+        presentScreen.style.display = 'block';  // Exibe a tela de presentes
+        loadPresents(); // Carrega os presentes na tela
+    }
 }
 
 // Função para voltar à tela inicial (nome)
@@ -111,21 +113,4 @@ function goBack() {
     const nameScreen = document.getElementById('name-screen');
     const presentScreen = document.getElementById('present-screen');
     
-    nameScreen.style.display = 'block';  // Exibe a tela de nome
-    presentScreen.style.display = 'none';  // Esconde a tela de presentes
-    document.getElementById("name").value = ''; // Limpa o campo de nome
-    userName = ''; // Limpa o nome do usuário para reiniciar
-}
-
-// Função para verificar se o nome já foi inserido e esconder a tela inicial de nome
-function checkUserName() {
-    if (userName) {
-        startChoosing();  // Se o nome já foi inserido, vai direto para a tela de presentes
-    }
-}
-
-// Função para carregar os dados ao carregar a página
-window.onload = function() {
-    loadPresents();
-    checkUserName(); // Verifica se o nome já foi inserido anteriormente
-};
+    if (nameScreen && pres
