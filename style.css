@@ -8,7 +8,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column;
 }
 
 /* Container do conteúdo */
@@ -20,14 +19,11 @@ body {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-    margin-top: 30px;
 }
 
 /* Título */
 h1 {
     color: #d5006d;
-    font-size: 2.5em;
-    margin-bottom: 20px;
 }
 
 /* Lista de presentes */
@@ -63,7 +59,7 @@ button:hover {
     background-color: #ab0046;
 }
 
-/* Formulário de entrada (primeira tela) */
+/* Formulário */
 .form {
     margin-top: 20px;
 }
@@ -81,46 +77,20 @@ input:focus {
     border-color: #d5006d;
 }
 
-/* Estilo para o botão flutuante de voltar */
-#back-button {
+/* Botão flutuante de voltar */
+#back-btn {
     position: fixed;
     top: 20px;
     right: 20px;
     background-color: #d5006d;
     color: white;
     border: none;
+    padding: 10px;
     border-radius: 50%;
-    padding: 15px;
     cursor: pointer;
-    font-size: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 999;
+    font-size: 18px;
 }
 
-#back-button:hover {
+#back-btn:hover {
     background-color: #ab0046;
-}
-
-#back-button:focus {
-    outline: none;
-}
-
-/* Estilo da tela inicial (nome) */
-#name-screen {
-    display: block;
-}
-
-/* Estilo da tela de escolha de presentes */
-#present-screen {
-    display: none;
-}
-
-/* Estilo geral de transições */
-.fade {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.fade.show {
-    opacity: 1;
 }
