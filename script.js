@@ -62,14 +62,14 @@ function startChoosing() {
         return;
     }
 
+    // Armazena o nome do usuário no localStorage para usar nas funções de escolha e desfazer
+    localStorage.setItem("userName", name);
+
     // Esconde a tela de nome
     document.getElementById("name-screen").style.display = "none";
     // Exibe a tela de escolha de presentes
     document.getElementById("choose-screen").style.display = "block";
     
-    // Armazena o nome do usuário no localStorage para usar nas funções de escolha e desfazer
-    localStorage.setItem("userName", name);
-
     loadPresents(); // Carrega a lista de presentes
 }
 
@@ -131,13 +131,26 @@ function unchoosePresent(presentKey) {
 
 // Função para carregar os dados ao carregar a página
 window.onload = function() {
-    // Verifica se o nome foi armazenado no localStorage
-    if (!localStorage.getItem("userName")) {
-        document.getElementById("name-screen").style.display = "block";
-        document.getElementById("choose-screen").style.display = "none";
-    } else {
+    const userName = localStorage.getItem("userName");
+
+    // Se o nome estiver no localStorage, exibe a tela de escolha de presentes
+    if (userName) {
         document.getElementById("name-screen").style.display = "none";
         document.getElementById("choose-screen").style.display = "block";
-        loadPresents(); // Carrega os presentes se o nome já estiver armazenado
+        loadPresents(); // Carrega a lista de presentes
+    } else {
+        // Se o nome não estiver armazenado, exibe a tela de inserção de nome
+        document.getElementById("name-screen").style.display = "block";
+        document.getElementById("choose-screen").style.display = "none";
     }
 };
+
+// Função para voltar à tela de nome
+function goBackToNameScreen() {
+    // Esconde a tela de escolha de presentes
+    document.getElementById("choose-screen").style.display = "none";
+    // Exibe a tela de nome
+    document.getElementById("name-screen").style.display = "block";
+    // Limpa o nome do localStorage
+    localStorage.removeItem("userName");
+}
