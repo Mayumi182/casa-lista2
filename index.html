@@ -7,22 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Tela 1: Formulário para o nome -->
-    <div id="name-screen" class="container">
-        <h1>Chá de Casa Nova</h1>
-        <p>Escolha um presente e adicione seu nome:</p>
-
-        <!-- Formulário para adicionar o nome -->
-        <div class="form">
+    <div class="container">
+        <!-- Tela de inserção do nome -->
+        <div id="name-screen">
+            <h1>Chá de Casa Nova</h1>
+            <p>Digite seu nome para escolher um presente:</p>
             <input type="text" id="name" placeholder="Digite seu nome" required>
             <button onclick="startChoosing()">Confirmar</button>
         </div>
-    </div>
 
-    <!-- Tela 2: Lista de presentes -->
-    <div id="choose-screen" class="container" style="display: none;">
-        <h1>Escolha seu presente</h1>
-        <ul id="present-list"></ul>
+        <!-- Tela de escolha de presentes -->
+        <div id="choose-screen" style="display: none;">
+            <h1>Escolha um presente:</h1>
+            <ul id="present-list"></ul>
+        </div>
     </div>
 
     <!-- Scripts para Firebase versão 8.x -->
