@@ -13,6 +13,23 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
+// Função para carregar a tela de presentes após digitar o nome
+function startChoosing() {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
+
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    // Esconde a tela de nome e mostra a tela de presentes
+    document.getElementById("screen-name").style.display = "none";
+    document.getElementById("screen-presents").style.display = "block";
+
+    loadPresents(); // Carrega a lista de presentes
+}
+
 // Função para pegar os presentes do Firebase e exibir na lista
 function loadPresents() {
     const presentsList = document.getElementById("present-list");
