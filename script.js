@@ -8,7 +8,6 @@ const firebaseConfig = {
     messagingSenderId: "878950006907",
     appId: "1:878950006907:web:62eb9256722a0bb77be2de"
 };
-
 // Inicializando o Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -41,7 +40,6 @@ function loadPresents() {
                         ${present.name}
                     </label>
                     <span id="chosen-by-${id}">${present.chosenBy ? `Escolhido por: ${present.chosenBy}` : ''}</span>
-                    <button class="undo-button" onclick="undoChoice('${id}')">Desfazer escolha</button>
                 `;
                 presentList.appendChild(li);
             }
@@ -71,20 +69,6 @@ function submitChoice() {
     } else {
         alert('Por favor, escolha um presente e adicione seu nome.');
     }
-}
-
-// Função para desfazer a escolha de um presente
-function undoChoice(presentId) {
-    const presentRef = database.ref('presents/' + presentId);
-
-    // Remover o nome do campo 'chosenBy', permitindo que o presente volte a ser escolhido
-    presentRef.update({ chosenBy: null });
-
-    // Atualizar a interface
-    const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
-    chosenBySpan.innerText = ''; // Limpar a mensagem de quem escolheu
-    const checkbox = document.querySelector(`.present-checkbox[data-id="${presentId}"]`);
-    checkbox.disabled = false; // Reabilitar o checkbox para nova escolha
 }
 
 // Carregar a lista de presentes ao carregar a página
