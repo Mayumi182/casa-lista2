@@ -50,6 +50,21 @@ button {
     cursor: pointer;
 }
 
+/* Botão de voltar - flutuante, redondo e com seta */
+#back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #d5006d;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
 button:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -77,20 +92,12 @@ input:focus {
     border-color: #d5006d;
 }
 
-/* Botão flutuante de voltar */
-#back-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #d5006d;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 18px;
+/* Tela Inicial (nome) */
+#name-screen {
+    display: block;
 }
 
-#back-btn:hover {
-    background-color: #ab0046;
+/* Tela de Presentes */
+#present-screen {
+    display: none;
 }
