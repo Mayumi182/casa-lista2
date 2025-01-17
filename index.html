@@ -7,22 +7,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="screen-name" class="container">
+    <!-- Tela 1: Formulário para o nome -->
+    <div id="name-screen" class="container">
         <h1>Chá de Casa Nova</h1>
-        <p>Digite seu nome para começar:</p>
-        
+        <p>Escolha um presente e adicione seu nome:</p>
+
         <!-- Formulário para adicionar o nome -->
         <div class="form">
             <input type="text" id="name" placeholder="Digite seu nome" required>
-            <button id="confirm-name-btn">Confirmar</button> <!-- Alteração para o id -->
+            <button onclick="startChoosing()">Confirmar</button>
         </div>
     </div>
 
-    <div id="screen-presents" class="container" style="display: none;">
-        <h1>Escolha um Presente</h1>
-        <p>Escolha um presente abaixo:</p>
-
-        <!-- Lista de presentes -->
+    <!-- Tela 2: Lista de presentes -->
+    <div id="choose-screen" class="container" style="display: none;">
+        <h1>Escolha seu presente</h1>
         <ul id="present-list"></ul>
     </div>
 
