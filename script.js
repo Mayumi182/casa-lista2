@@ -25,19 +25,17 @@ function loadPresents() {
         for (let key in presents) {
             if (presents[key].name) {
                 const li = document.createElement('li');
-                const isChosen = presents[key].chosenBy ? true : false;
-
                 li.innerHTML = `
                     <span>${presents[key].name}</span>
-                    ${!isChosen ? `<button onclick="choosePresent('${key}')">Escolher</button>` : ''}
-                    ${isChosen ? `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : ''}
+                    <button onclick="choosePresent('${key}')">Escolher</button>
+                    <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
                     <div id="chosen-${key}" class="chosen-name"></div>
                 `;
                 presentsList.appendChild(li);
 
                 // Exibe quem escolheu o presente (se alguém já escolheu)
                 const chosenName = document.getElementById(`chosen-${key}`);
-                if (isChosen) {
+                if (presents[key].chosenBy) {
                     chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
                 }
             }
@@ -55,23 +53,12 @@ function choosePresent(presentKey) {
         return;
     }
 
-    // Verifica se o presente já foi escolhido
-    database.ref('presents/' + presentKey).once('value').then(snapshot => {
-        const present = snapshot.val();
-
-        // Se o presente já foi escolhido, não permite a escolha
-        if (present.chosenBy) {
-            alert("Este presente já foi escolhido por outra pessoa!");
-            return;
-        }
-
-        // Atualiza a escolha no Firebase
-        database.ref('presents/' + presentKey).update({
-            chosenBy: name
-        }).then(() => {
-            loadPresents(); // Atualiza a lista de presentes
-            nameInput.value = ""; // Limpa o campo de nome
-        });
+    // Atualiza a escolha no Firebase
+    database.ref('presents/' + presentKey).update({
+        chosenBy: name
+    }).then(() => {
+        loadPresents(); // Atualiza a lista de presentes
+        nameInput.value = ""; // Limpa o campo de nome
     });
 }
 
