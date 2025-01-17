@@ -26,6 +26,8 @@ body {
 /* Título */
 h1 {
     color: #d5006d;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 /* Lista de presentes */
@@ -61,7 +63,7 @@ button:hover {
     background-color: #ab0046;
 }
 
-/* Formulário */
+/* Formulário de entrada (primeira tela) */
 .form {
     margin-top: 20px;
 }
@@ -101,4 +103,24 @@ input:focus {
 
 #back-button:focus {
     outline: none;
+}
+
+/* Estilo da tela inicial (nome) */
+#name-screen {
+    display: block;
+}
+
+/* Estilo da tela de escolha de presentes */
+#present-screen {
+    display: none;
+}
+
+/* Estilo geral de transições */
+.fade {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.fade.show {
+    opacity: 1;
 }
