@@ -10,7 +10,7 @@ const firebaseConfig = {
 };
 
 // Inicializando o Firebase
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // Referência para a lista de presentes no Firebase
@@ -56,7 +56,7 @@ function submitChoice() {
     if (name && checkedPresent) {
         const presentId = checkedPresent.getAttribute('data-id');
         const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
-        const presentRef = presentsRef.child(presentId);
+        const presentRef = database.ref('presents/' + presentId);
 
         // Atualizando o presente com o nome do escolhido
         presentRef.update({ chosenBy: name });
