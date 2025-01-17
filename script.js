@@ -13,93 +13,83 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// Referência para a lista de presentes no Firebase
-const presentsRef = database.ref('presents');
-
-// Função para exibir a lista de presentes
+// Função para pegar os presentes do Firebase e exibir na lista
 function loadPresents() {
-    presentsRef.on('value', (snapshot) => {
+    const presentsList = document.getElementById("present-list");
+    presentsList.innerHTML = ''; // Limpa a lista antes de preencher
+
+    // Pega os dados da lista de presentes no Firebase
+    database.ref('presents').once('value').then(snapshot => {
         const presents = snapshot.val();
 
-        // Verificando se os dados foram carregados
-        console.log("Dados carregados do Firebase:", presents);
-
-        if (presents) {
-            const presentList = document.getElementById('present-list');
-            presentList.innerHTML = ''; // Limpar a lista antes de adicionar os itens
-
-            // Adicionando os presentes na lista
-            for (let id in presents) {
-                const present = presents[id];
+        for (let key in presents) {
+            if (presents[key].name) {
                 const li = document.createElement('li');
-                li.classList.add('present-item');
-
-                // Adicionando o nome do presente e status de quem escolheu
                 li.innerHTML = `
-                    <label>
-                        <input type="checkbox" class="present-checkbox" data-id="${id}" ${present.chosenBy ? 'disabled' : ''}>
-                        ${present.name}
-                    </label>
-                    <span id="chosen-by-${id}">
-                        ${present.chosenBy ? `Escolhido por: ${present.chosenBy}` : ''}
-                    </span>
-                    ${present.chosenBy === document.getElementById('name').value ? 
-                        `<button class="undo-button" onclick="undoChoice('${id}')">Desfazer escolha</button>` : ''}
+                    <span>${presents[key].name}</span>
+                    <button onclick="choosePresent('${key}')">Escolher</button>
+                    <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
+                    <div id="chosen-${key}" class="chosen-name"></div>
                 `;
-                presentList.appendChild(li);
+                presentsList.appendChild(li);
+
+                // Exibe quem escolheu o presente (se alguém já escolheu)
+                const chosenName = document.getElementById(`chosen-${key}`);
+                if (presents[key].chosenBy) {
+                    chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
+                }
             }
-        } else {
-            console.log("Nenhum presente encontrado.");
         }
     });
 }
 
-// Função para enviar a escolha do presente
-function submitChoice() {
-    const name = document.getElementById('name').value;
-    const checkedPresent = document.querySelector('.present-checkbox:checked');
+// Função para escolher um presente
+function choosePresent(presentKey) {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
 
-    if (name && checkedPresent) {
-        const presentId = checkedPresent.getAttribute('data-id');
-        const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
-        const presentRef = database.ref('presents/' + presentId);
-
-        // Atualizando o presente com o nome do escolhido
-        presentRef.update({ chosenBy: name });
-
-        // Atualizando a interface
-        chosenBySpan.innerText = `Escolhido por: ${name}`;
-        checkedPresent.disabled = true; // Desabilita o checkbox
-        document.getElementById('name').value = ''; // Limpar o campo de nome
-    } else {
-        alert('Por favor, escolha um presente e adicione seu nome.');
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
     }
+
+    // Atualiza a escolha no Firebase
+    database.ref('presents/' + presentKey).update({
+        chosenBy: name
+    }).then(() => {
+        loadPresents(); // Atualiza a lista de presentes
+        nameInput.value = ""; // Limpa o campo de nome
+    });
 }
 
 // Função para desfazer a escolha de um presente
-function undoChoice(presentId) {
-    const name = document.getElementById('name').value; // Pega o nome do input
-    const presentRef = database.ref('presents/' + presentId);
+function unchoosePresent(presentKey) {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
 
-    // Verifica se o nome da pessoa que está tentando desfazer a escolha é o mesmo que fez a escolha
-    presentRef.once('value').then(snapshot => {
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    // Verifica se o nome corresponde ao que escolheu
+    database.ref('presents/' + presentKey).once('value').then(snapshot => {
         const present = snapshot.val();
-        const chosenBy = present.chosenBy;
-
-        if (chosenBy && chosenBy === name) {
-            // Remover o nome do campo 'chosenBy', permitindo que o presente volte a ser escolhido
-            presentRef.update({ chosenBy: null });
-
-            // Atualizar a interface
-            const chosenBySpan = document.getElementById(`chosen-by-${presentId}`);
-            chosenBySpan.innerText = ''; // Limpar a mensagem de quem escolheu
-            const checkbox = document.querySelector(`.present-checkbox[data-id="${presentId}"]`);
-            checkbox.disabled = false; // Reabilitar o checkbox para nova escolha
+        if (present.chosenBy === name) {
+            // Desfaz a escolha no Firebase
+            database.ref('presents/' + presentKey).update({
+                chosenBy: null
+            }).then(() => {
+                loadPresents(); // Atualiza a lista de presentes
+                nameInput.value = ""; // Limpa o campo de nome
+            });
         } else {
-            alert('Você não pode desfazer a escolha de outra pessoa!');
+            alert("Este presente não foi escolhido por você!");
         }
     });
 }
 
-// Carregar a lista de presentes ao carregar a página
-loadPresents();
+// Função para carregar os dados ao carregar a página
+window.onload = function() {
+    loadPresents();
+};
