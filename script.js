@@ -13,9 +13,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-let userName = ''; // Variável para armazenar o nome do usuário
+let name = "";
 
-// Função para carregar os presentes do Firebase e exibir na lista
+// Função para carregar a lista de presentes
 function loadPresents() {
     const presentsList = document.getElementById("present-list");
     presentsList.innerHTML = ''; // Limpa a lista antes de preencher
@@ -27,23 +27,36 @@ function loadPresents() {
         for (let key in presents) {
             if (presents[key].name) {
                 const li = document.createElement('li');
-                const isChosen = presents[key].chosenBy;
+                const button = document.createElement('button');
+                button.innerHTML = 'Escolher';
                 
-                li.innerHTML = `
-                    <span>${presents[key].name}</span>
-                    <button onclick="choosePresent('${key}')">Escolher</button>
-                    ${isChosen && isChosen === userName ? 
-                        `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : 
-                        ''} 
-                    <div id="chosen-${key}" class="chosen-name"></div>
-                `;
-                presentsList.appendChild(li);
-
-                // Exibe quem escolheu o presente (se alguém já escolheu)
-                const chosenName = document.getElementById(`chosen-${key}`);
+                // Desabilitar o botão se o presente já foi escolhido
                 if (presents[key].chosenBy) {
-                    chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
+                    button.disabled = true;
+                    button.innerHTML = 'Escolhido';
+                } else {
+                    button.onclick = function() {
+                        choosePresent(key);
+                    };
                 }
+                
+                const unchooseButton = document.createElement('button');
+                unchooseButton.innerHTML = 'Desfazer escolha';
+                unchooseButton.style.display = (presents[key].chosenBy === name) ? 'inline-block' : 'none'; // Exibir o botão de desfazer escolha apenas se o nome for o mesmo
+
+                unchooseButton.onclick = function() {
+                    unchoosePresent(key);
+                };
+
+                const chosenName = document.createElement('div');
+                chosenName.classList.add('chosen-name');
+                chosenName.textContent = presents[key].chosenBy ? `Escolhido por: ${presents[key].chosenBy}` : '';
+
+                li.appendChild(document.createElement('span')).innerHTML = presents[key].name;
+                li.appendChild(button);
+                li.appendChild(unchooseButton);
+                li.appendChild(chosenName);
+                presentsList.appendChild(li);
             }
         }
     });
@@ -51,30 +64,21 @@ function loadPresents() {
 
 // Função para escolher um presente
 function choosePresent(presentKey) {
-    const nameInput = document.getElementById("name");
-    const name = nameInput.value.trim();
-
     if (name === "") {
         alert("Por favor, insira seu nome.");
         return;
     }
-
-    userName = name; // Armazena o nome do usuário
 
     // Atualiza a escolha no Firebase
     database.ref('presents/' + presentKey).update({
         chosenBy: name
     }).then(() => {
         loadPresents(); // Atualiza a lista de presentes
-        nameInput.value = ""; // Limpa o campo de nome, mas mantém o nome em userName
     });
 }
 
 // Função para desfazer a escolha de um presente
 function unchoosePresent(presentKey) {
-    const nameInput = document.getElementById("name");
-    const name = userName;
-
     if (name === "") {
         alert("Por favor, insira seu nome.");
         return;
@@ -96,21 +100,28 @@ function unchoosePresent(presentKey) {
     });
 }
 
-// Função para carregar a tela de escolha de presentes
+// Função para iniciar a escolha, após preencher o nome
 function startChoosing() {
-    const nameScreen = document.getElementById('name-screen');
-    const presentScreen = document.getElementById('present-screen');
-    
-    if (nameScreen && presentScreen) {
-        nameScreen.style.display = 'none';  // Esconde a tela de nome
-        presentScreen.style.display = 'block';  // Exibe a tela de presentes
-        loadPresents(); // Carrega os presentes na tela
+    name = document.getElementById("name").value.trim();
+
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
     }
+
+    // Esconde a tela de nome e mostra a tela de presentes
+    document.getElementById("name-screen").style.display = "none";
+    document.getElementById("present-screen").style.display = "block";
+
+    loadPresents(); // Carrega os presentes
 }
 
-// Função para voltar à tela inicial (nome)
+// Função para voltar para a tela inicial
 function goBack() {
-    const nameScreen = document.getElementById('name-screen');
-    const presentScreen = document.getElementById('present-screen');
-    
-    if (nameScreen && pres
+    document.getElementById("name-screen").style.display = "block";
+    document.getElementById("present-screen").style.display = "none";
+
+    // Limpa o nome, caso o usuário queira mudar
+    name = "";
+    document.getElementById("name").value = "";
+}
