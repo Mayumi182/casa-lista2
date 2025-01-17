@@ -117,6 +117,11 @@ function unchoosePresent(presentKey) {
                 chosenBy: null
             }).then(() => {
                 loadPresents(); // Atualiza a lista de presentes
+
+                // Voltar à tela inicial para digitar o nome novamente
+                document.getElementById("choose-screen").style.display = "none";
+                document.getElementById("name-screen").style.display = "block";
+                localStorage.removeItem("userName"); // Limpa o nome do localStorage
             });
         } else {
             alert("Este presente não foi escolhido por você!");
