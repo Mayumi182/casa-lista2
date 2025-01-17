@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container" id="name-screen">
+    <!-- Tela para colocar o nome -->
+    <div id="name-screen" class="container">
         <h1>Chá de Casa Nova</h1>
-        <p>Preencha seu nome e escolha um presente em seguida. Caso queira mudar o presente basta entrar com o nome como escreveu a primeira vez e clicar em "desfazer escolha".</p>
+        <p>Escolha um presente e adicione seu nome:</p>
 
         <!-- Formulário para adicionar o nome -->
         <div class="form">
@@ -18,11 +19,14 @@
         </div>
     </div>
 
-    <div class="container" id="choose-screen" style="display: none;">
-        <h1>Escolha um Presente</h1>
+    <!-- Tela para escolher presentes -->
+    <div id="choose-screen" class="container" style="display: none;">
+        <h1>Escolha seu presente</h1>
         <ul id="present-list"></ul>
-        <button id="back-button" onclick="goBack()">←</button>
     </div>
+
+    <!-- Botão flutuante para voltar -->
+    <button id="back-button" onclick="goBack()">←</button>
 
     <!-- Scripts para Firebase versão 8.x -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
