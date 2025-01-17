@@ -55,12 +55,21 @@ function choosePresent(presentKey) {
         return;
     }
 
-    // Atualiza a escolha no Firebase
-    database.ref('presents/' + presentKey).update({
-        chosenBy: name
-    }).then(() => {
-        loadPresents(); // Atualiza a lista de presentes
-        nameInput.value = ""; // Limpa o campo de nome
+    // Verifica se o presente já foi escolhido
+    database.ref('presents/' + presentKey).once('value').then(snapshot => {
+        const present = snapshot.val();
+        if (present.chosenBy) {
+            alert("Este presente já foi escolhido.");
+            return;
+        }
+
+        // Atualiza a escolha no Firebase
+        database.ref('presents/' + presentKey).update({
+            chosenBy: name
+        }).then(() => {
+            loadPresents(); // Atualiza a lista de presentes
+            nameInput.value = ""; // Limpa o campo de nome
+        });
     });
 }
 
