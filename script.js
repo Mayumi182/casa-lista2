@@ -25,19 +25,28 @@ function loadPresents() {
         for (let key in presents) {
             if (presents[key].name) {
                 const li = document.createElement('li');
-                li.innerHTML = `
+                const chosenBy = presents[key].chosenBy;
+
+                // Se o presente foi escolhido por alguém
+                let buttonsHTML = `
                     <span>${presents[key].name}</span>
-                    <button onclick="choosePresent('${key}')">Escolher</button>
-                    <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
                     <div id="chosen-${key}" class="chosen-name"></div>
                 `;
-                presentsList.appendChild(li);
 
-                // Exibe quem escolheu o presente (se alguém já escolheu)
-                const chosenName = document.getElementById(`chosen-${key}`);
-                if (presents[key].chosenBy) {
-                    chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
+                // Adiciona o botão "Desfazer escolha" se o presente foi escolhido, ou "Escolher" caso contrário
+                if (chosenBy) {
+                    buttonsHTML += `
+                        <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
+                        <div>Escolhido por: ${chosenBy}</div>
+                    `;
+                } else {
+                    buttonsHTML += `
+                        <button onclick="choosePresent('${key}')">Escolher</button>
+                    `;
                 }
+
+                li.innerHTML = buttonsHTML;
+                presentsList.appendChild(li);
             }
         }
     });
