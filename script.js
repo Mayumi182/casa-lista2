@@ -25,12 +25,12 @@ function loadPresents() {
         for (let key in presents) {
             if (presents[key].name) {
                 const li = document.createElement('li');
-                const chosenBy = presents[key].chosenBy; // Verifica se o presente foi escolhido
+                const chosenBy = presents[key].chosenBy; // Verifica quem escolheu o presente
 
                 const nameInput = document.getElementById("name");
                 const name = nameInput.value.trim();  // Nome digitado pelo usuário
 
-                // Condicional para exibir a opção de "Desfazer escolha" só se o nome digitado for o mesmo de quem escolheu
+                // Verifica se o botão de "Desfazer escolha" deve ser mostrado
                 const canUnchoose = chosenBy && chosenBy === name;
 
                 li.innerHTML = `
