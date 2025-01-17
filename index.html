@@ -7,22 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Tela Inicial -->
-    <div id="name-screen" class="container">
-        <h1>Chá de Casa Nova</h1>
-        <p>Escolha um presente e adicione seu nome:</p>
-
-        <!-- Formulário para adicionar o nome -->
-        <div class="form">
-            <input type="text" id="name" placeholder="Digite seu nome" required>
-            <button id="start-button" onclick="startChoosing()">Confirmar</button>
+    <div class="container">
+        <!-- Tela de inserção do nome -->
+        <div id="name-screen">
+            <h1>Chá de Casa Nova</h1>
+            <p>Preencha seu nome e clique em confirmar para poder escolher um presente em seguida.</p>
+            <p>Caso queira mudar o presente basta entrar com o nome exatamente como escreveu anteriormente e selecionar a opção "desfazer escolha".</p>
+            
+            <!-- Formulário para adicionar o nome -->
+            <div class="form">
+                <input type="text" id="name" placeholder="Digite seu nome" required>
+            </div>
+            <button onclick="startChoosing()">Confirmar</button>
         </div>
-    </div>
 
-    <!-- Tela de Presentes -->
-    <div id="present-screen" class="container" style="display: none;">
-        <button id="back-button" onclick="goBack()">←</button>
-        <ul id="present-list"></ul>
+        <!-- Tela de escolha de presente -->
+        <div id="present-screen" style="display: none;">
+            <h1>Escolha um Presente</h1>
+            <ul id="present-list"></ul>
+            <button class="back-btn" onclick="goBack()">←</button>
+        </div>
     </div>
 
     <!-- Scripts para Firebase versão 8.x -->
