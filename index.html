@@ -7,14 +7,20 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+    <div id="screen-name" class="container">
         <h1>Chá de Casa Nova</h1>
-        <p>Escolha um presente e adicione seu nome:</p>
-
+        <p>Digite seu nome para começar:</p>
+        
         <!-- Formulário para adicionar o nome -->
         <div class="form">
             <input type="text" id="name" placeholder="Digite seu nome" required>
+            <button onclick="startChoosing()">Confirmar</button>
         </div>
+    </div>
+
+    <div id="screen-presents" class="container" style="display: none;">
+        <h1>Escolha um Presente</h1>
+        <p>Escolha um presente abaixo:</p>
 
         <!-- Lista de presentes -->
         <ul id="present-list"></ul>
@@ -23,7 +29,7 @@
     <!-- Scripts para Firebase versão 8.x -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    
+
     <!-- Seu script.js -->
     <script src="script.js"></script>
 </body>
