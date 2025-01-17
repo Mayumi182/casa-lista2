@@ -5,11 +5,11 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center;
-    align-items: flex-start;  /* Alinhamento inicial para que o conteúdo não fique no centro absoluto */
+    justify-content: flex-start;  /* Começar no topo */
+    align-items: center;  /* Manter o conteúdo centralizado verticalmente */
     flex-direction: column;
     box-sizing: border-box;
-    min-height: 100vh;  /* Permite que o conteúdo ocupe toda a altura da página */
+    height: auto; /* Evitar altura forçada */
 }
 
 /* Container principal */
@@ -21,13 +21,13 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-top: 50px;  /* Espaçamento do topo */
+    margin-top: 20px;  /* Dê um pouco de espaço acima */
 }
 
 /* Título */
 h1 {
     color: #ff4081;  /* Rosa */
-    font-size: 24px;
+    font-size: 26px;  /* Maior que antes */
     margin-bottom: 10px;
 }
 
