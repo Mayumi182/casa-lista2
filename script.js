@@ -117,7 +117,15 @@ function goBack() {
     userName = ''; // Limpa o nome do usuário para reiniciar
 }
 
+// Função para verificar se o nome já foi inserido e esconder a tela inicial de nome
+function checkUserName() {
+    if (userName) {
+        startChoosing();  // Se o nome já foi inserido, vai direto para a tela de presentes
+    }
+}
+
 // Função para carregar os dados ao carregar a página
 window.onload = function() {
     loadPresents();
+    checkUserName(); // Verifica se o nome já foi inserido anteriormente
 };
