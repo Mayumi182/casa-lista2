@@ -21,8 +21,6 @@ function loadPresents() {
     // Pega os dados da lista de presentes no Firebase
     database.ref('presents').once('value').then(snapshot => {
         const presents = snapshot.val();
-        const nameInput = document.getElementById("name");
-        const name = nameInput.value.trim();
 
         for (let key in presents) {
             if (presents[key].name) {
@@ -30,7 +28,7 @@ function loadPresents() {
                 li.innerHTML = `
                     <span>${presents[key].name}</span>
                     <button onclick="choosePresent('${key}')">Escolher</button>
-                    ${presents[key].chosenBy === name ? `<button onclick="unchoosePresent('${key}')">Desfazer escolha</button>` : ''}
+                    <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
                     <div id="chosen-${key}" class="chosen-name"></div>
                 `;
                 presentsList.appendChild(li);
@@ -39,6 +37,13 @@ function loadPresents() {
                 const chosenName = document.getElementById(`chosen-${key}`);
                 if (presents[key].chosenBy) {
                     chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
+                    // Desabilita o botão de escolher caso já tenha sido escolhido
+                    const chooseButton = li.querySelector('button');
+                    chooseButton.disabled = true;
+                } else {
+                    // Ativa o botão de escolher
+                    const chooseButton = li.querySelector('button');
+                    chooseButton.disabled = false;
                 }
             }
         }
@@ -91,7 +96,35 @@ function unchoosePresent(presentKey) {
     });
 }
 
+// Função para iniciar a tela de escolha após digitar o nome
+function startChoosing() {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
+
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    // Mostra a tela de escolha de presentes
+    document.getElementById("name-screen").style.display = "none";
+    document.getElementById("choose-screen").style.display = "block";
+
+    loadPresents(); // Carrega os presentes na tela de escolha
+}
+
+// Função para voltar à tela de digitar o nome
+function goBack() {
+    // Mostra a tela de digitação de nome
+    document.getElementById("name-screen").style.display = "block";
+
+    // Esconde a tela de escolha de presentes
+    document.getElementById("choose-screen").style.display = "none";
+}
+
 // Função para carregar os dados ao carregar a página
 window.onload = function() {
-    loadPresents();
+    // Exibe a tela inicial onde o nome é digitado
+    document.getElementById("name-screen").style.display = "block";
+    document.getElementById("choose-screen").style.display = "none";
 };
