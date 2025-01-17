@@ -1,84 +1,95 @@
-/* Estilos gerais */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+// Configuração do Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyDKXT7xVBuv-56IXKuUaah8-2aXp5MKY90",
+    authDomain: "cha-casa-pandas-9913b.firebaseapp.com",
+    databaseURL: "https://cha-casa-pandas-9913b-default-rtdb.firebaseio.com",
+    projectId: "cha-casa-pandas-9913b",
+    storageBucket: "cha-casa-pandas-9913b.firebasestorage.app",
+    messagingSenderId: "878950006907",
+    appId: "1:878950006907:web:62eb9256722a0bb77be2de"
+};
+
+// Inicializando o Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// Função para pegar os presentes do Firebase e exibir na lista
+function loadPresents() {
+    const presentsList = document.getElementById("present-list");
+    presentsList.innerHTML = ''; // Limpa a lista antes de preencher
+
+    // Pega os dados da lista de presentes no Firebase
+    database.ref('presents').once('value').then(snapshot => {
+        const presents = snapshot.val();
+
+        for (let key in presents) {
+            if (presents[key].name) {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${presents[key].name}</span>
+                    <button onclick="choosePresent('${key}')">Escolher</button>
+                    <button onclick="unchoosePresent('${key}')">Desfazer escolha</button>
+                    <div id="chosen-${key}" class="chosen-name"></div>
+                `;
+                presentsList.appendChild(li);
+
+                // Exibe quem escolheu o presente (se alguém já escolheu)
+                const chosenName = document.getElementById(`chosen-${key}`);
+                if (presents[key].chosenBy) {
+                    chosenName.textContent = `Escolhido por: ${presents[key].chosenBy}`;
+                }
+            }
+        }
+    });
 }
 
-.container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;  /* Limite máximo para o tamanho */
-    box-sizing: border-box;
-}
+// Função para escolher um presente
+function choosePresent(presentKey) {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
 
-h1 {
-    text-align: center;
-    color: #e91e63; /* Cor rosa */
-    margin-bottom: 15px;
-}
-
-form {
-    margin-bottom: 20px;
-}
-
-/* Estilos para o campo de nome */
-input[type="text"] {
-    width: 100%;   /* Garante que o campo ocupe toda a largura */
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box; /* Garantir que o padding não ultrapasse a largura total */
-}
-
-button {
-    background-color: #e91e63;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px 0;
-    width: 100%; /* Ajustando o botão para que fique bem alinhado */
-}
-
-button:hover {
-    background-color: #d81b60;
-}
-
-/* Estilo para a lista de presentes */
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-li {
-    padding: 10px;
-    background-color: #f5f5f5;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.chosen-name {
-    font-style: italic;
-    color: #666;
-}
-
-/* Responsividade para telas pequenas */
-@media screen and (max-width: 600px) {
-    .container {
-        padding: 15px;
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
     }
 
-    button {
-        width: 100%; /* Garante que os botões fiquem na largura completa em telas pequenas */
-    }
+    // Atualiza a escolha no Firebase
+    database.ref('presents/' + presentKey).update({
+        chosenBy: name
+    }).then(() => {
+        loadPresents(); // Atualiza a lista de presentes
+        nameInput.value = ""; // Limpa o campo de nome
+    });
 }
+
+// Função para desfazer a escolha de um presente
+function unchoosePresent(presentKey) {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
+
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    // Verifica se o nome corresponde ao que escolheu
+    database.ref('presents/' + presentKey).once('value').then(snapshot => {
+        const present = snapshot.val();
+        if (present.chosenBy === name) {
+            // Desfaz a escolha no Firebase
+            database.ref('presents/' + presentKey).update({
+                chosenBy: null
+            }).then(() => {
+                loadPresents(); // Atualiza a lista de presentes
+                nameInput.value = ""; // Limpa o campo de nome
+            });
+        } else {
+            alert("Este presente não foi escolhido por você!");
+        }
+    });
+}
+
+// Função para carregar os dados ao carregar a página
+window.onload = function() {
+    loadPresents();
+};
