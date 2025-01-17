@@ -1,147 +1,84 @@
-/* Estilo geral do corpo */
+/* Estilos gerais */
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
     display: flex;
-    justify-content: flex-start;  /* Começar no topo */
-    align-items: center;  /* Manter o conteúdo centralizado verticalmente */
-    flex-direction: column;
-    box-sizing: border-box;
-    height: auto; /* Evitar altura forçada */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-/* Container principal */
 .container {
-    width: 100%;
-    max-width: 600px;
+    background-color: white;
     padding: 20px;
-    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-top: 20px;  /* Dê um pouco de espaço acima */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;  /* Limite máximo para o tamanho */
+    box-sizing: border-box;
 }
 
-/* Título */
 h1 {
-    color: #ff4081;  /* Rosa */
-    font-size: 26px;  /* Maior que antes */
-    margin-bottom: 10px;
+    text-align: center;
+    color: #e91e63; /* Cor rosa */
+    margin-bottom: 15px;
 }
 
-/* Texto do parágrafo */
-p {
-    color: #333;
-    font-size: 18px;
+form {
     margin-bottom: 20px;
 }
 
-/* Lista de presentes */
+/* Estilos para o campo de nome */
+input[type="text"] {
+    width: 100%;   /* Garante que o campo ocupe toda a largura */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Garantir que o padding não ultrapasse a largura total */
+}
+
+button {
+    background-color: #e91e63;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px 0;
+    width: 100%; /* Ajustando o botão para que fique bem alinhado */
+}
+
+button:hover {
+    background-color: #d81b60;
+}
+
+/* Estilo para a lista de presentes */
 ul {
     list-style-type: none;
     padding: 0;
 }
 
 li {
-    margin-bottom: 15px;
-    background-color: #f1f1f1;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-li button {
-    margin-top: 5px;
     padding: 10px;
-    background-color: #ff4081;  /* Rosa */
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    max-width: 150px;
-}
-
-li button:hover {
-    background-color: #f50057;  /* Rosa mais escuro */
-}
-
-/* Campo de input */
-input {
-    padding: 10px;
-    width: 100%;
-    max-width: 300px;
+    background-color: #f5f5f5;
     margin-bottom: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-/* Botão de submit */
-button#submit {
-    background-color: #ff4081;  /* Rosa */
-    padding: 12px 20px;
-    font-size: 16px;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 150px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-}
-
-button#submit:hover {
-    background-color: #f50057;  /* Rosa mais escuro */
-}
-
-/* Adicionando espaço entre os itens */
 .chosen-name {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
+    font-style: italic;
+    color: #666;
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 600px) {
+/* Responsividade para telas pequenas */
+@media screen and (max-width: 600px) {
     .container {
         padding: 15px;
-        width: 90%;
     }
 
-    h1 {
-        font-size: 22px;
-    }
-
-    p {
-        font-size: 16px;
-    }
-
-    li {
-        padding: 10px;
-    }
-
-    li button {
-        max-width: 100%;
-        font-size: 14px;
-    }
-
-    button#submit {
-        max-width: 100%;
-        font-size: 14px;
-    }
-
-    input {
-        max-width: 100%;
-        font-size: 14px;
+    button {
+        width: 100%; /* Garante que os botões fiquem na largura completa em telas pequenas */
     }
 }
