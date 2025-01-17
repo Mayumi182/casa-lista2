@@ -51,3 +51,8 @@ function unchoosePresent(presentKey) {
         }
     });
 }
+
+// Função para carregar os dados ao carregar a página
+window.onload = function() {
+    loadPresents();
+};
