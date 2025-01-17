@@ -13,27 +13,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
-// Função para começar a escolher (primeiro esconder a tela de nome e mostrar a lista de presentes)
-function startChoosing() {
-    const nameInput = document.getElementById("name");
-    const name = nameInput.value.trim();
-
-    if (name === "") {
-        alert("Por favor, insira seu nome.");
-        return;
-    }
-
-    // Esconde a tela de nome
-    document.getElementById("name-screen").style.display = "none";
-    // Exibe a tela de escolha de presentes
-    document.getElementById("choose-screen").style.display = "block";
-    
-    // Armazena o nome do usuário no localStorage para usar nas funções de escolha e desfazer
-    localStorage.setItem("userName", name);
-
-    loadPresents(); // Carrega a lista de presentes
-}
-
 // Função para pegar os presentes do Firebase e exibir na lista
 function loadPresents() {
     const presentsList = document.getElementById("present-list");
@@ -62,6 +41,27 @@ function loadPresents() {
             }
         }
     });
+}
+
+// Função para começar a escolher (primeiro esconder a tela de nome e mostrar a lista de presentes)
+function startChoosing() {
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
+
+    if (name === "") {
+        alert("Por favor, insira seu nome.");
+        return;
+    }
+
+    // Esconde a tela de nome
+    document.getElementById("name-screen").style.display = "none";
+    // Exibe a tela de escolha de presentes
+    document.getElementById("choose-screen").style.display = "block";
+    
+    // Armazena o nome do usuário no localStorage para usar nas funções de escolha e desfazer
+    localStorage.setItem("userName", name);
+
+    loadPresents(); // Carrega a lista de presentes
 }
 
 // Função para escolher um presente
