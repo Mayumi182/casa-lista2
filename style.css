@@ -8,7 +8,6 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column;
 }
 
 /* Container do conteúdo */
@@ -61,6 +60,10 @@ button:hover {
 }
 
 /* Formulário */
+.form {
+    margin-top: 20px;
+}
+
 input {
     padding: 10px;
     width: 80%;
@@ -72,4 +75,22 @@ input {
 input:focus {
     outline: none;
     border-color: #d5006d;
+}
+
+/* Botão Voltar fixo */
+button.go-back {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #ab0046;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.go-back:hover {
+    background-color: #d5006d;
 }
